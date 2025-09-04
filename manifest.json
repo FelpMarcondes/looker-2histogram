@@ -1,0 +1,9 @@
+{
+  "name": "grafico_barras_duplas",
+  "description": "Gráfico de barras duplas agrupadas para Looker Studio",
+  "resources": {
+    "js": ["script.js"],
+    "css": []
+  },
+  "devMode": true
+}
