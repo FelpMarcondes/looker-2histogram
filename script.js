@@ -2,7 +2,7 @@ const dscc = require('ds-component');
 
 function draw(data) {
   const container = document.getElementById("chart");
-  container.innerHTML = ""; // limpar antes de redesenhar
+  container.innerHTML = "";
 
   const width = container.offsetWidth;
   const height = container.offsetHeight;
@@ -22,21 +22,25 @@ function draw(data) {
     valor2: row.metricID[1]
   }));
 
+  // Escala X principal (categorias)
   const x0 = d3.scaleBand()
     .domain(dataset.map(d => d.categoria))
     .range([margin.left, width - margin.right])
     .paddingInner(0.2);
 
+  // Escala X interna (duas barras dentro da categoria)
   const x1 = d3.scaleBand()
     .domain(["valor1", "valor2"])
     .range([0, x0.bandwidth()])
     .padding(0.05);
 
+  // Escala Y
   const y = d3.scaleLinear()
     .domain([0, d3.max(dataset, d => Math.max(d.valor1, d.valor2))])
     .nice()
     .range([height - margin.bottom, margin.top]);
 
+  // Cores
   const color = d3.scaleOrdinal()
     .domain(["valor1", "valor2"])
     .range(["#1f77b4", "#ff7f0e"]);
@@ -51,13 +55,14 @@ function draw(data) {
     .attr("transform", `translate(${margin.left},0)`)
     .call(d3.axisLeft(y));
 
-  // Grupos de barras
+  // Grupos de barras (uma para cada categoria)
   const barGroups = svg.selectAll("g.layer")
     .data(dataset)
     .enter()
     .append("g")
     .attr("transform", d => `translate(${x0(d.categoria)},0)`);
 
+  // Duas barras lado a lado
   barGroups.selectAll("rect")
     .data(d => ["valor1", "valor2"].map(key => ({ key, value: d[key] })))
     .enter()
@@ -68,7 +73,7 @@ function draw(data) {
     .attr("height", d => y(0) - y(d.value))
     .attr("fill", d => color(d.key));
 
-  // Labels acima das barras
+  // Labels nas barras
   barGroups.selectAll("text")
     .data(d => ["valor1", "valor2"].map(key => ({ key, value: d[key] })))
     .enter()
@@ -97,5 +102,5 @@ function draw(data) {
   });
 }
 
-// Subscrever os dados
+// Subscreve para ouvir dados do Looker Studio
 dscc.subscribeToData(draw, { transform: dscc.tableTransform });
