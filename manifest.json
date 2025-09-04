@@ -1,9 +1,38 @@
 {
-  "name": "grafico_barras_duplas",
-  "description": "Gráfico de barras duplas agrupadas para Looker Studio",
+  "name": "Double Bar Chart",
+  "organization": "Felipe Dev",
+  "description": "Um gráfico de barras duplas para comparação lado a lado.",
+  "logoUrl": "https://raw.githubusercontent.com/felpmarcondes/looker-2histogram/main/logo.png",
+  "supportUrl": "https://github.com/felpmarcondes/looker-2histogram",
+  "privacyPolicyUrl": "https://github.com/felpmarcondes/looker-2histogram",
+  "termsOfServiceUrl": "https://github.com/felpmarcondes/looker-2histogram",
   "resources": {
-    "js": ["script.js"],
-    "css": []
+    "js": [
+      "https://felpmarcondes.github.io/looker-2histogram/script.js"
+    ],
+    "css": [
+      "https://felpmarcondes.github.io/looker-2histogram/style.css"
+    ]
   },
-  "devMode": true
+  "devMode": true,
+  "allowCustom": true,
+  "data": {
+    "fields": [
+      {
+        "id": "dimension",
+        "name": "Dimensão",
+        "type": "DIMENSION"
+      },
+      {
+        "id": "metric1",
+        "name": "Métrica 1",
+        "type": "METRIC"
+      },
+      {
+        "id": "metric2",
+        "name": "Métrica 2",
+        "type": "METRIC"
+      }
+    ]
+  }
 }
